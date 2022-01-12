@@ -74,6 +74,18 @@ class Encryptor:
 clear = lambda: os.system('cls')
 
 
+def input_key():
+    while True:
+        k = input("key: ")
+        if k is None or len(k) == 0:
+            continue
+        if len(k) > 16:
+            k = k[:16]
+        else:
+            k = k.ljust(16, '0')
+        return k
+
+
 def menu():
     while True:
         clear()
@@ -81,8 +93,12 @@ def menu():
             "1. Press '1' to encrypt.\n2. Press '2' to decrypt.\n3. Press '3' to exit.\n"))
         clear()
         if choice == 1:
+            key = input_key()
+            enc = Encryptor(key)
             enc.encrypt_file_or_dir(str(input("Enter file or dir to encrypt: ")))
         elif choice == 2:
+            key = input_key()
+            enc = Encryptor(key)
             enc.decrypt_file_or_dir(str(input("Enter file or dir to decrypt: ")))
         elif choice == 3:
             exit()
@@ -91,8 +107,6 @@ def menu():
 
 
 if __name__ == '__main__':
-    key = 'kkkkkkkkkkkkkkkk'
-    enc = Encryptor(key)
     opts, args = getopt.getopt(sys.argv[1:], "e:d:hv", ["encrypt", "decrypt", "help", "version"])
     if len(opts) == 0:
         menu()
@@ -112,12 +126,16 @@ if __name__ == '__main__':
                     filename = "./"
             if o in ("-h", "--help"):
                 me = ntpath.basename(os.path.realpath(sys.argv[0]))
-                print("usage: " + me + " [-e|-f] [file or dir]")
+                print("usage: " + me + " [-e|-d] [file or dir]")
                 sys.exit(0)
             if o in ("-v", "--version"):
-                print("V.1.0\nBy QianXiao")
+                print("V.1.1\nBy QianXiao")
                 sys.exit(0)
         if direct:
+            key = input_key()
+            enc = Encryptor(key)
             enc.encrypt_file_or_dir(filename)
         else:
+            key = input_key()
+            enc = Encryptor(key)
             enc.decrypt_file_or_dir(filename)
