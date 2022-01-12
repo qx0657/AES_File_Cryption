@@ -89,18 +89,18 @@ def input_key():
 def menu():
     while True:
         clear()
-        choice = int(input(
-            "1. Press '1' to encrypt.\n2. Press '2' to decrypt.\n3. Press '3' to exit.\n"))
+        choice = input(
+            "1. Press 'e' to encrypt.\n2. Press 'd' to decrypt.\n3. Press 'q' to quit.\n")
         clear()
-        if choice == 1:
-            key = input_key()
-            enc = Encryptor(key)
-            enc.encrypt_file_or_dir(str(input("Enter file or dir to encrypt: ")))
-        elif choice == 2:
-            key = input_key()
-            enc = Encryptor(key)
-            enc.decrypt_file_or_dir(str(input("Enter file or dir to decrypt: ")))
-        elif choice == 3:
+        if choice == 'e':
+            key1 = input_key()
+            enc1 = Encryptor(key1)
+            enc1.encrypt_file_or_dir(str(input("Enter file or dir to encrypt: ")))
+        elif choice == 'd':
+            key2 = input_key()
+            enc2 = Encryptor(key2)
+            enc2.decrypt_file_or_dir(str(input("Enter file or dir to decrypt: ")))
+        elif choice == 'q':
             exit()
         else:
             print("Please select a valid option!")
