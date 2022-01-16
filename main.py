@@ -107,35 +107,44 @@ def menu():
 
 
 if __name__ == '__main__':
-    opts, args = getopt.getopt(sys.argv[1:], "e:d:hv", ["encrypt", "decrypt", "help", "version"])
+    opts, args = getopt.getopt(sys.argv[1:], "e:d:k:hv", ["encrypt", "decrypt", "key", "help", "version"])
     if len(opts) == 0:
         menu()
     else:
         direct = 0
         filename = ''
+        key = None
         for o, a in opts:
             if o in ("-e", "--encrypt"):
                 direct = 1
                 filename = a
-                if filename == None:
+                if filename is None:
                     filename = "./"
             if o in ("-d", "--decrypt"):
                 direct = 0
                 filename = a
-                if filename == None:
+                if filename is None:
                     filename = "./"
+            if o in ("-k", "--key"):
+                if a is not None:
+                    if len(a) > 16:
+                        key = a[:16]
+                    else:
+                        key = a.ljust(16, '0')
             if o in ("-h", "--help"):
                 me = ntpath.basename(os.path.realpath(sys.argv[0]))
-                print("usage: " + me + " [-e|-d] [file or dir]")
+                print("usage: " + me + " -e|-d [file or dir] (-k [key])")
                 sys.exit(0)
             if o in ("-v", "--version"):
-                print("V.1.1\nBy QianXiao")
+                print("V.1.2\nBy QianXiao")
                 sys.exit(0)
         if direct:
-            key = input_key()
+            if key is None:
+                key = input_key()
             enc = Encryptor(key)
             enc.encrypt_file_or_dir(filename)
         else:
-            key = input_key()
+            if key is None:
+                key = input_key()
             enc = Encryptor(key)
             enc.decrypt_file_or_dir(filename)
